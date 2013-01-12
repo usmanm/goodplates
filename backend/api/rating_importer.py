@@ -6,8 +6,12 @@ def import_ratings(f):
 	with open(f) as csvfile:
 		reader = csv.DictReader(csvfile)
 		for row in reader:
-			if row["this_dish_is_an_entree_on_a_dinner_or_lunch_menu__as_opposed_to_beverages_appetizers_or_sides"] == "Yes":
-				item = MenuItem.objects.get(locu_id=row["id"])
+			if row["this_dish_is_an_entree_on_a_dinner_menu__as_opposed_to_beverages_appetizers_or_sides"] == "Yes":
+				try:
+					item = MenuItem.objects.get(locu_id=row["id"])
+				except MenuItem.DoesNotExist:
+					print "Could not find a menuitem", row["id"]
+					continue
 				username = row["_worker_id"]
 				try:
 					user = User.objects.get(username=username)
