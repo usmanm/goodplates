@@ -8,7 +8,7 @@ def loadCsv(fileName):
     userIdx = rows[0].index("_worker_id")
     answerIdx = rows[0].index("i_would_like_to_eat_this_dish")
     
-    rows = [(r[itemIdx], r[userIdx], 1 if r[answerIdx] == "Yes" else -1) for r in rows[1:]]
+    rows = [(r[itemIdx], r[userIdx], 1 if r[answerIdx] == "Yes" else 0) for r in rows[1:]]
     
     itemIdMap = uniqMap([r[0] for r in rows], 1)
     userIdMap = uniqMap([r[1] for r in rows])

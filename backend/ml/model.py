@@ -20,4 +20,11 @@ def makeModel(itemIdMap, userIdMap, ratings, factors=20, learnRate=0.0005, regul
     model = RSVD.train(factors, train, dims, probeArray=val,
                 learnRate=learnRate, regularization=regularization)
 
+    sqerr=0.0
+    for itemID,userID,rating in test:
+        err = rating - model(itemID,userID)
+        sqerr += err * err
+    sqerr /= test.shape[0]
+    print "Test RMSE: ", np.sqrt(sqerr)
+
     return model
