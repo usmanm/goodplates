@@ -29,7 +29,7 @@ class ML:
         print "Number of Items: ", len(itemIdMap)
 
         start = time()
-        m = model.makeModel(itemIdMap, userIdMap, ratings, factors=int(math.ceil(len(userIdMap) / 10.0)))
+        m = model.makeModel(itemIdMap, userIdMap, ratings, factors=int(math.ceil(math.sqrt(len(userIdMap)))))
         elapsed = time() - start
         print "makeModel(): ", elapsed
 
