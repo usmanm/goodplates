@@ -32,7 +32,8 @@
         <activity android:name="com.singly.android.component.AuthenticatedServicesActivity" />
         <activity
             android:name="com.example.goodplates.PreferencesActivity"
-            android:label="@string/title_activity_preferences" >
+            android:label="@string/title_activity_preferences" 
+            android:windowSoftInputMode="stateHidden">
         </activity>
     </application>
 
