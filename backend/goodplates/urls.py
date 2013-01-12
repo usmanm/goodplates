@@ -16,4 +16,5 @@ urlpatterns = patterns('',
     # url(r'^admin/', include(admin.site.urls)),
     url(r'^api/user/$', 'api.views.user'),
     url(r'^api/register_user/$', 'api.views.register_user'),
+    url(r'^api/rate/$', 'api.views.rate'),
 )
