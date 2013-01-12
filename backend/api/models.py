@@ -19,7 +19,7 @@ class MenuItem(models.Model):
 	description = models.CharField(max_length=2048, null=True, blank=True)
 	section = models.CharField(max_length=255, null=True, blank=True)
 	def __unicode__(self):
-		return self.name
+		return self.title
 
 class Rating(models.Model):
 	user = models.ForeignKey(User)
