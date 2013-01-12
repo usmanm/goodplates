@@ -16,7 +16,7 @@ class ML:
     _userMap = None
 
     @classmethod
-    def build(cls, csvFileName=None):
+    def build(cls, factors=None, csvFileName=None):
         if csvFileName:
             itemIdMap, userIdMap, ratings = load.loadCsv(csvFileName)
         else:
@@ -29,7 +29,7 @@ class ML:
         print "Number of Items: ", len(itemIdMap)
 
         start = time()
-        m = model.makeModel(itemIdMap, userIdMap, ratings, factors=int(math.ceil(math.sqrt(len(userIdMap)))))
+        m = model.makeModel(itemIdMap, userIdMap, ratings, factors=factors or int(math.ceil(math.sqrt(len(userIdMap)))))
         elapsed = time() - start
         print "makeModel(): ", elapsed
 
