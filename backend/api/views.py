@@ -130,7 +130,7 @@ def get_ranked_items(request):
 	#shuffle(items)
 	items.sort(reverse=True)
 	if lat != None:
-		output = [ item_to_json_dict(i[1], distance((lat,lon), (i.venue.lat, i.venue.lon)), ranking=i[0]) for i in items[count*(page-1):count*page] ]
+		output = [ item_to_json_dict(i[1], distance((lat,lon), (i[1].venue.lat, i[1].venue.lon)), ranking=i[0]) for i in items[count*(page-1):count*page] ]
 	else:
 		output = [ item_to_json_dict(i[1], ranking=i[0]) for i in items[count*(page-1):count*page] ]
 	return HttpResponse(json.dumps(output, indent=4))
