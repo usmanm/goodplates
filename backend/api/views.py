@@ -70,7 +70,7 @@ def get_ranked_items(request):
 		return HttpResponseBadRequest(error_json('user "%s" not found in database'%username))
 	page = int(request.GET.get("page", 1))
 	count = 50
-	items = MenuItem.objects.all()
+	items = [ x for x in MenuItem.objects.all() ]
 	from random import shuffle
 	shuffle(items)
 	output = [ {"locu_id": i.locu_id,
