@@ -14,14 +14,16 @@ class ML:
     _userMap = None
 
     @classmethod
-    def build(cls):
-        itemIdMap, userIdMap, ratings = load.loadDb()
-        #itemIdMap, userIdMap, ratings = load.loadCsv("output1.csv")
+    def build(cls, csvFileName=None):
+        if csvFileName:
+            itemIdMap, userIdMap, ratings = load.loadCsv(csvFileName)
+        else:
+            itemIdMap, userIdMap, ratings = load.loadDb()
 
         m = model.makeModel(itemIdMap, userIdMap, ratings)
 
         if os.path.exists(MODEL_DIR):
-            shutil.copytree(MODEL_DIR, MODEL_DIR + "-" + datetime.now().isoformat())
+            shutil.move(MODEL_DIR, MODEL_DIR + "-" + datetime.now().isoformat())
 
         os.makedirs(MODEL_DIR)
 
@@ -48,15 +50,24 @@ class ML:
         ML._model = RSVD.load(MODEL_DIR)
 
     @classmethod
-    def get(cls, userId, itemId):
+    def get(cls, userId, itemId=None, mapIds=True):
         if not os.path.exists(MODEL_DIR):
             return 0.5
 
         if not ML._model or not ML._userMap or not ML._itemMap:
             ML.loadModel()
 
-        userId = ML._userMap[userId]
-        itemId = ML._itemMap[itemId]
+        if mapIds:
+            userId = ML._userMap[userId]
 
-        return ML._model(itemId, userId)
-
+            if not itemId:
+                return dict((itid, ML._model(ML._itemMap[itid], userId)) for itid in ML._itemMap.keys())
+            else:
+                itemId = ML._itemMap[itemId]
+                return ML._model(itemId, userId)
+    
+        else:
+            if not itemId:
+                return dict((itid, ML._model(itid, userId)) for itid in ML._itemMap.values())
+            else:
+                return ML._model(itemId, userId)
