@@ -66,14 +66,17 @@ def venue_to_json_dict(venue):
 	        "locality": venue.locality,
 	        "region": venue.region,
 	        "website": venue.website}
-def item_to_json_dict(item):
-	return {"locu_id": item.locu_id,
-	        "title": item.title,
-	        "venue": venue_to_json_dict(item.venue),
-	        "description": item.description,
-	        "section": item.section,
-	        "price": item.price,
-	        "image_url": item.image_url}
+def item_to_json_dict(item, dist=None):
+	dic = {"locu_id": item.locu_id,
+	       "title": item.title,
+	       "venue": venue_to_json_dict(item.venue),
+	       "description": item.description,
+	       "section": item.section,
+	       "price": item.price,
+	       "image_url": item.image_url}
+	if dist != None:
+		dic["distance"] = dist
+	return dic
 
 def get_ranked_items(request):
 	try:
@@ -102,7 +105,7 @@ def get_ranked_items(request):
 	page = int(request.GET.get("page", 1))
 	count = int(request.GET.get("size", 50))
 
-	max_distance = 10 #km
+	max_distance = float(request.GET.get("radius", 10)) #km
 	from haversine import distance
 	if lat != None:
 		items = [ x for x in MenuItem.objects.all().select_related('venue') if distance((lat,lon), (x.venue.lat, x.venue.lon)) <= max_distance]
@@ -110,5 +113,8 @@ def get_ranked_items(request):
 		items = [ x for x in MenuItem.objects.all() ]
 	from random import shuffle
 	shuffle(items)
-	output = [ item_to_json_dict(i) for i in items[:count] ]
+	if lat != None:
+		output = [ item_to_json_dict(i, distance((lat,lon), (i.venue.lat, i.venue.lon))) for i in items[:count] ]
+	else:
+		output = [ item_to_json_dict(i) for i in items[:count] ]
 	return HttpResponse(json.dumps(output, indent=4))
