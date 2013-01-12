@@ -5,6 +5,7 @@ from datetime import datetime
 import shutil
 from rsvd import RSVD
 import pickle
+import math
 
 MODEL_DIR = "/tmp/model/current"
 
@@ -20,7 +21,10 @@ class ML:
         else:
             itemIdMap, userIdMap, ratings = load.loadDb()
 
-        m = model.makeModel(itemIdMap, userIdMap, ratings)
+        print "Number of Users: ", len(userIdMap)
+        print "Number of Items: ", len(itemIdMap)
+
+        m = model.makeModel(itemIdMap, userIdMap, ratings, factors=int(math.ceil(len(userIdMap) / 10.0)))
 
         if os.path.exists(MODEL_DIR):
             shutil.move(MODEL_DIR, MODEL_DIR + "-" + datetime.now().isoformat())
@@ -52,7 +56,7 @@ class ML:
     @classmethod
     def get(cls, userId, itemId=None, mapIds=True):
         if not os.path.exists(MODEL_DIR):
-            return 0.5
+            return 3
 
         if not ML._model or not ML._userMap or not ML._itemMap:
             ML.loadModel()

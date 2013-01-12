@@ -11,7 +11,7 @@ def loadCsv(fileName):
     userIdx = rows[0].index("_worker_id")
     answerIdx = rows[0].index("i_would_like_to_eat_this_dish")
     
-    rows = [(r[itemIdx], r[userIdx], 1 if r[answerIdx] == "Yes" else 0) for r in rows[1:]]
+    rows = [(r[itemIdx], r[userIdx], 5 if r[answerIdx] == "Yes" else 1) for r in rows[1:]]
     
     itemIdMap = uniqMap([r[0] for r in rows], 1)
     userIdMap = uniqMap([r[1] for r in rows])
@@ -26,7 +26,7 @@ def loadDb():
     """
     ratings = Rating.objects.all()
 
-    rows = [(r.menu_item.locu_id, r.user.username, 1 if r.value == Rating.LIKE else 0) for r in ratings]
+    rows = [(r.menu_item.locu_id, r.user.username, 5 if r.value == Rating.LIKE else 1) for r in ratings]
 
     itemIdMap = uniqMap([r[0] for r in rows], 1)
     userIdMap = uniqMap([r[1] for r in rows])
