@@ -9,11 +9,16 @@ def makeModel(itemIdMap, userIdMap, ratings, factors=20, learnRate=0.001, regula
     np.random.shuffle(ratings)
 
     n = int(ratings.shape[0] * 0.8)
-    train = ratings[:n]
+    # train = ratings[:n]
     test = ratings[n:]
-    v = int(train.shape[0] * 0.9)
-    val = train[v:]
-    train = train[:v]
+    # v = int(train.shape[0] * 0.9)
+    # val = train[v:]
+    # train = train[:v]
+
+    # Increasing training data
+    v = int(ratings.shape[0] * 0.9)
+    val = ratings[v:]
+    train = ratings[:v]
 
     dims = (len(itemIdMap), len(userIdMap))
 
