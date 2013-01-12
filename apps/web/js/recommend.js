@@ -9,7 +9,7 @@ $(function () {
 		window.location.href = "index.html"
 	});
 
-	var requestUrl = '/api/get_ranked_items/?username=' + encodedEmail + /*'&lat=' + '374735.89' + '&lon=' + '-1222338.64' + '&radius=' + '40' + */'&page=';	
+	var requestUrl = '/api/get_ranked_items/?username=' + encodedEmail + '&lat=' + '37.7750' + '&lon=' + '-122.4183' + '&page=';	
 	var tileTemplate = $("#Template");	
 	var currentPage = 1;
 	$('#NextPage').attr('href', requestUrl + '2');
@@ -21,6 +21,7 @@ $(function () {
 				newItem.removeAttr('id');
 				newItem.find('h2').text(json[i].title);
 				newItem.data('item', json[i]);
+				if (json[i].image_url != null) newItem.children('img').attr('src', json[i].image_url);
 				newItem.appendTo('#ScrollView');
 			}
 
@@ -35,8 +36,8 @@ $(function () {
 				newTile.children('.FoodDetails').text(data.description == "" ? "No description available." : data.description);
 				newTile.children('.RestaurantName').text(data.venue.name);
 				newTile.children('.RestaurantAddress').text(data.venue.address + ", " + data.venue.locality);
-				var currentUrl = newTile.children('img').src;
-				newTile.children('img').src = data.image_url == null ? currentUrl : data.image_url;
+				var currentUrl = newTile.children('.ImageContainer').children('img').src;
+				if (data.image_url != null) newTile.children('.ImageContainer').children('img').attr('src', data.image_url);
 				var link = newTile.children('.RestaurantWebsite').children('a');
 				link.attr('href', data.venue.website);
 				link.text(data.venue.website);
