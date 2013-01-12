@@ -35,8 +35,11 @@ $(function () {
 				newTile.children('.FoodDetails').text(data.description == "" ? "No description available." : data.description);
 				newTile.children('.RestaurantName').text(data.venue.name);
 				newTile.children('.RestaurantAddress').text(data.venue.address + ", " + data.venue.locality);
-				newTile.children('.RestaurantWebsite a').attr('href', data.venue.website);
-				newTile.children('.RestaurantWebsite a').text(data.venue.website);
+				var currentUrl = newTile.children('img').src;
+				newTile.children('img').src = data.image_url == null ? currentUrl : data.image_url;
+				var link = newTile.children('.RestaurantWebsite').children('a');
+				link.attr('href', data.venue.website);
+				link.text(data.venue.website);
 
 				var children = 	currentTile.children();
 				var parent = currentTile.parent();
@@ -63,7 +66,6 @@ $(function () {
 						event.stopPropagation();
 					});
 				});
-
 			});
 		});
 		currentPage += 1;
@@ -82,6 +84,7 @@ $(function () {
 	        // Load in more results
 		    if ($(window).scrollTop() >= $(document).height() - $(window).height() - 5) {
 		      loadPage(currentPage);
+		      $('.tile').unbind();
 		    }
 	    }
 	}, 1500);
