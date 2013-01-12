@@ -1,0 +1,78 @@
+.tile {
+  position: relative;
+  max-width: 400px;
+  padding: 19px 29px 29px;
+  margin: 0 auto 20px;
+  background-color: #fff;
+  border: 1px solid #e5e5e5;
+  -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+          border-radius: 5px;
+  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+     -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+          box-shadow: 0 1px 2px rgba(0,0,0,.05);
+}
+
+#Template {
+	display: none;
+}
+
+.food-name {
+	max-width: 350px; /* tile width - .food-name left */
+	position: absolute;
+	z-index: 1000;
+	top: 20px;
+	left: 50px;
+	color: white;
+    text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;  
+}
+
+.FoodName, .FoodDetails, .RestaurantName, .RestaurantAddress, .RestaurantWebsite {
+	max-width: 350px;
+
+}
+
+#BottomProgress {
+	position: absolute;
+	width: 200px;
+	left: 50%;
+	margin-left: -100px;
+}
+
+/* pop up stuff */
+#Popup *, #Popup.PopupContainer *{ 
+	display: none;
+}
+
+.PopupContainer { 
+/*	padding: 20px 40px;
+	width: 600px;*/
+}
+
+.PopupImage {
+	max-height: 200px;
+	margin: 0 auto 20px;
+}
+
+/* horizontal centering */
+.ImageContainer {
+	width:50%;
+	margin: auto;
+}
+
+.close-hitarea {
+	position: absolute;
+	top: 15px;
+	right: 15px;
+	width: 40px;
+	height: 40px;
+}
+
+.close {
+	width: 25px;
+	margin-top: 8px;
+}

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>GoodPlates</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
+    <link href="css/site.css" rel="stylesheet" media="screen">
+    <link href="css/recommend.css" rel="stylesheet" media="screen">
+  </head>
+  <body>
+
+    <!-- Top bar -->
+  <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="brand" href="#">GoodPlates</a>
+          <div class="nav-collapse collapse">
+            <p class="navbar-text pull-right">
+              <a href="#" class="navbar-link" id="Logout">Logout</a>
+            </p>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="main-container">
+
+      <div id="ScrollView"> 
+        <div class="post"></div>
+        <a id="NextPage" href="#" style="display: none;">Next Page</a>
+      </div>
+      
+      <!-- food tile template -->
+      <div class="tile" id="Template">
+        <img class="img-rounded" src="http://distilleryimage8.s3.amazonaws.com/b504dfae5c6d11e2ab5722000a9e0907_7.jpg" />
+        <h2 class="food-name">kibbles</h2>
+      </div>
+
+    </div>
+
+    <!-- food info popup -->
+    <div id="Popup">
+      <div class="PopupContainer">
+        <div class="close-hitarea">
+          <a class="close">&times;</a>
+        </div>
+        <div class="ImageContainer">
+          <img class="PopupImage img-rounded" src="http://distilleryimage8.s3.amazonaws.com/b504dfae5c6d11e2ab5722000a9e0907_7.jpg" />
+        </div>
+        <h2 class="FoodName">Pizza</h2>
+        <h4 class="FoodDetails">details</h4>
+        <h4 class="RestaurantName">Dominos</h4>
+        <h4 class="RestaurantAddress">107 Caledonia St., San Francisco</h4>
+        <h4 class="RestaurantWebsite"><a href="http://dominos.com">http://dominos.com</a></h4>
+        <h4 style="display: inline;">I've eaten this and:</h4>
+        <button type="button" class="btn btn-large btn-success" id="YesButton">I liked it.</button>
+        <button type="button" class="btn btn-large btn-danger" id="NoButton">I did not like it.</button> 
+      </div>
+    </div>
+
+    <div class="progress progress-striped active" id="BottomProgress">
+      <div class="bar" style="width: 100%;"></div>
+    </div>
+
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="js/jquery.cookie.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.infinitescroll.min.js"></script>
+    <script src="js/site.js"></script>
+    <script src="js/recommend.js"></script>
+  </body>
+</html>
