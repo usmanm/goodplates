@@ -106,7 +106,6 @@ def get_ranked_items(request):
 	from haversine import distance
 	if lat != None:
 		items = [ x for x in MenuItem.objects.all().select_related('venue') if distance((lat,lon), (x.venue.lat, x.venue.lon)) <= max_distance]
-		#items = [ x for x in MenuItem.objects.all() if distance((lat,lon), (2, 2)) <= max_distance]
 	else:
 		items = [ x for x in MenuItem.objects.all() ]
 	from random import shuffle
