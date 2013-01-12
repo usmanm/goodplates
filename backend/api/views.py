@@ -58,3 +58,25 @@ def rate(request):
 		return HttpResponse("")
 	else:
 		return HttpResponseBadRequest(error_json('Rating "%s" is not valid'%rating))
+
+def get_ranked_items(request):
+	try:
+		username = request.GET["username"]
+	except KeyError:
+		return HttpResponseBadRequest(error_json("username required but not provided"))
+	try:
+		user = User.objects.get(username=username)
+	except User.DoesNotExist:
+		return HttpResponseBadRequest(error_json('user "%s" not found in database'%username))
+	page = int(request.GET.get("page", 1))
+	count = 50
+	items = MenuItem.objects.all()
+	from random import shuffle
+	shuffle(items)
+	output = [ {"locu_id": i.locu_id,
+	            "title": i.title,
+	            "venue_name": i.venue.name,
+	            "description": i.description,
+	            "section": i.section}
+	           for i in items[:count] ]
+	return HttpResponse(json.dumps(output, indent=4))
