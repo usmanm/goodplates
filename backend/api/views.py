@@ -12,3 +12,8 @@ def user(request, username):
 		return HttpResponse(user_json(registered=True))
 	except User.DoesNotExist:
 		return HttpResponse(user_json(registered=False))
+
+def register_user(request, username):
+	u = User(username=username)
+	u.save()
+	return HttpResponse(user_json(registered=True))
