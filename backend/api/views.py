@@ -51,13 +51,15 @@ def rate(request):
 	if rating.lower() == "like":
 		r = Rating(user=user, menu_item=item, value=Rating.LIKE)
 		r.save()
-		return HttpResponse("")
 	elif rating.lower() == "dislike":
 		r = Rating(user=user, menu_item=item, value=Rating.DISLIKE)
 		r.save()
-		return HttpResponse("")
 	else:
 		return HttpResponseBadRequest(error_json('Rating "%s" is not valid'%rating))
+
+	from ml import ML
+	ML.build()
+	return HttpResponse("")
 
 def venue_to_json_dict(venue):
 	return {"locu_id": venue.locu_id,
@@ -66,7 +68,7 @@ def venue_to_json_dict(venue):
 	        "locality": venue.locality,
 	        "region": venue.region,
 	        "website": venue.website}
-def item_to_json_dict(item, dist=None):
+def item_to_json_dict(item, dist=None, ranking=None):
 	dic = {"locu_id": item.locu_id,
 	       "title": item.title,
 	       "venue": venue_to_json_dict(item.venue),
@@ -76,7 +78,17 @@ def item_to_json_dict(item, dist=None):
 	       "image_url": item.image_url}
 	if dist != None:
 		dic["distance"] = dist
+	if ranking != None:
+		dic["ranking"] = ranking
 	return dic
+
+class fakedict(dict):
+	def __init__(self, value):
+		self.value= value
+	def __getitem__(self, x):
+		return self.value
+	def __contains__(self, value):
+		return True
 
 def get_ranked_items(request):
 	try:
@@ -107,14 +119,20 @@ def get_ranked_items(request):
 
 	max_distance = float(request.GET.get("radius", 10)) #km
 	from haversine import distance
+	from ml import ML
+	try:
+		rankings = ML.get(username)
+	except KeyError:
+		rankings = fakedict(0)
 	if lat != None:
-		items = [ x for x in MenuItem.objects.all().select_related('venue') if distance((lat,lon), (x.venue.lat, x.venue.lon)) <= max_distance]
+		items = [ (rankings[x.locu_id], x) for x in MenuItem.objects.all().select_related('venue') if distance((lat,lon), (x.venue.lat, x.venue.lon)) <= max_distance and x.locu_id in rankings]
 	else:
-		items = [ x for x in MenuItem.objects.all() ]
-	from random import shuffle
-	shuffle(items)
+		items = [ (rankings[x.locu_id], x) for x in MenuItem.objects.all() if x.locu_id in rankings]
+	#from random import shuffle
+	#shuffle(items)
+	items.sort(reverse=True)
 	if lat != None:
-		output = [ item_to_json_dict(i, distance((lat,lon), (i.venue.lat, i.venue.lon))) for i in items[:count] ]
+		output = [ item_to_json_dict(i[1], distance((lat,lon), (i[1].venue.lat, i[1].venue.lon)), ranking=i[0]) for i in items[count*(page-1):count*page] ]
 	else:
-		output = [ item_to_json_dict(i) for i in items[:count] ]
+		output = [ item_to_json_dict(i[1], ranking=i[0]) for i in items[count*(page-1):count*page] ]
 	return HttpResponse(json.dumps(output, indent=4))
