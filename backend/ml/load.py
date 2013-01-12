@@ -1,5 +1,6 @@
 import csv
 from api.models import Rating
+from time import time
 
 def loadCsv(fileName):
     """
@@ -24,9 +25,13 @@ def loadDb():
     """
     Loads up ratings from the DB
     """
-    ratings = Rating.objects.all()
+    start = time()
+    ratings = Rating.objects.all().select_related()
+    print "Rating.objects.all(): ", time() - start
 
+    start = time()
     rows = [(r.menu_item.locu_id, r.user.username, 5 if r.value == Rating.LIKE else 1) for r in ratings]
+    
 
     itemIdMap = uniqMap([r[0] for r in rows], 1)
     userIdMap = uniqMap([r[1] for r in rows])

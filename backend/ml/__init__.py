@@ -6,6 +6,7 @@ import shutil
 from rsvd import RSVD
 import pickle
 import math
+from time import time
 
 MODEL_DIR = "/tmp/model/current"
 
@@ -19,13 +20,20 @@ class ML:
         if csvFileName:
             itemIdMap, userIdMap, ratings = load.loadCsv(csvFileName)
         else:
+            start = time()
             itemIdMap, userIdMap, ratings = load.loadDb()
+            elapsed = time() - start
+            print "loadDb: ", elapsed
 
         print "Number of Users: ", len(userIdMap)
         print "Number of Items: ", len(itemIdMap)
 
+        start = time()
         m = model.makeModel(itemIdMap, userIdMap, ratings, factors=int(math.ceil(len(userIdMap) / 10.0)))
+        elapsed = time() - start
+        print "makeModel(): ", elapsed
 
+        start = time()
         if os.path.exists(MODEL_DIR):
             shutil.move(MODEL_DIR, MODEL_DIR + "-" + datetime.now().isoformat())
 
@@ -40,6 +48,8 @@ class ML:
         userFile = open(MODEL_DIR + "/userMap", 'wb')
         pickle.dump(userIdMap, userFile)
         userFile.close()
+        elapsed = time() - start
+        print "Save All: ", elapsed
 
     @classmethod
     def loadModel(cls):
