@@ -4,11 +4,11 @@ def loadCsv(fileName):
     """
     rows = [tuple(l.strip().split(",")) for l in file(fileName).readlines()]
 
-    itemIdx = 13
-    userIdx = 6
-    answerIdx = 11
+    itemIdx = rows[0].index("id")
+    userIdx = rows[0].index("_worker_id")
+    answerIdx = rows[0].index("i_would_like_to_eat_this_dish")
     
-    rows = [(int(r[itemIdx]), int(r[userIdx]), 1 if r[answerIdx] == "Yes" else -1) for r in rows[1:]]
+    rows = [(r[itemIdx], r[userIdx], 1 if r[answerIdx] == "Yes" else -1) for r in rows[1:]]
     
     itemIdMap = uniqMap([r[0] for r in rows], 1)
     userIdMap = uniqMap([r[1] for r in rows])
