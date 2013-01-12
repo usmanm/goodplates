@@ -59,6 +59,21 @@ def rate(request):
 	else:
 		return HttpResponseBadRequest(error_json('Rating "%s" is not valid'%rating))
 
+def venue_to_json_dict(venue):
+	return {"locu_id": venue.locu_id,
+	        "name": venue.name,
+	        "address": venue.address,
+	        "locality": venue.locality,
+	        "region": venue.region,
+	        "website": venue.website}
+def item_to_json_dict(item):
+	return {"locu_id": item.locu_id,
+	        "title": item.title,
+	        "venue": venue_to_json_dict(item.venue),
+	        "description": item.description,
+	        "section": item.section,
+	        "price": item.price}
+
 def get_ranked_items(request):
 	try:
 		username = request.GET["username"]
@@ -73,10 +88,5 @@ def get_ranked_items(request):
 	items = [ x for x in MenuItem.objects.all() ]
 	from random import shuffle
 	shuffle(items)
-	output = [ {"locu_id": i.locu_id,
-	            "title": i.title,
-	            "venue_name": i.venue.name,
-	            "description": i.description,
-	            "section": i.section}
-	           for i in items[:count] ]
+	output = [ item_to_json_dict(i) for i in items[:count] ]
 	return HttpResponse(json.dumps(output, indent=4))

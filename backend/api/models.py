@@ -9,6 +9,10 @@ class User(models.Model):
 class Venue(models.Model):
 	locu_id = models.CharField(unique=True, max_length=200)
 	name = models.CharField(max_length=255)
+	address = models.CharField(max_length=255)
+	locality = models.CharField(max_length=50)
+	region = models.CharField(max_length=5)
+	website = models.CharField(max_length=255)
 	def __unicode__(self):
 		return self.name
 
@@ -18,6 +22,7 @@ class MenuItem(models.Model):
 	title = models.CharField(max_length=255)
 	description = models.CharField(max_length=2048, null=True, blank=True)
 	section = models.CharField(max_length=255, null=True, blank=True)
+	price = models.CharField(max_length=10, null=True, blank=True)
 	def __unicode__(self):
 		return self.title
 
