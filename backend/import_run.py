@@ -8,3 +8,5 @@ def run():
 	from ml import ML
 	print("rebuilding model")
 	ML.build()
+
+run()
