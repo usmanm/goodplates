@@ -3,19 +3,27 @@ from django.db import models
 # Create your models here.
 class User(models.Model):
 	username = models.CharField(max_length=100, unique=True, primary_key=True)
+	def __unicode__(self):
+		return self.username
 
 class Venue(models.Model):
-	id = models.IntegerField(unique=True, primary_key=True)
+	locu_id = models.CharField(unique=True, max_length=200)
 	name = models.CharField(max_length=255)
+	def __unicode__(self):
+		return self.name
 
 class MenuItem(models.Model):
-	id = models.IntegerField(unique=True, primary_key=True)
+	locu_id = models.CharField(unique=True, max_length=200)
 	venue = models.ForeignKey(Venue)
-	name = models.CharField(max_length=255)
+	title = models.CharField(max_length=255)
+	description = models.CharField(max_length=2048, null=True, blank=True)
+	section = models.CharField(max_length=255, null=True, blank=True)
+	def __unicode__(self):
+		return self.name
 
-class Preference(models.Model):
+class Rating(models.Model):
 	user = models.ForeignKey(User)
-	item = models.ForeignKey(MenuItem)
+	menu_item = models.ForeignKey(MenuItem)
 	LIKE = 1
 	DISLIKE = 2
 	VALUE_CHOICES = (
