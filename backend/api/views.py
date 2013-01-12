@@ -84,9 +84,31 @@ def get_ranked_items(request):
 		user = User.objects.get(username=username)
 	except User.DoesNotExist:
 		return HttpResponseBadRequest(error_json('user "%s" not found in database'%username))
+	lat = request.GET.get("lat", None)
+	lon = request.GET.get("lon", None)
+	if lat == None and lon != None:
+		return HttpResponseBadRequest(error_json('lon parameter provided without lat parameter'))
+	if lat != None and lon == None:
+		return HttpResponseBadRequest(error_json('lat parameter provided without lon parameter'))
+	if lat != None:
+		try:
+			lat = float(lat)
+		except ValueError:
+			return HttpResponseBadRequest(error_json('lat parameter invalid'))
+		try:
+			lon = float(lon)
+		except ValueError:
+			return HttpResponseBadRequest(error_json('lon parameter invalid'))
 	page = int(request.GET.get("page", 1))
 	count = int(request.GET.get("size", 50))
-	items = [ x for x in MenuItem.objects.all() ]
+
+	max_distance = 10 #km
+	from haversine import distance
+	if lat != None:
+		items = [ x for x in MenuItem.objects.all().select_related('venue') if distance((lat,lon), (x.venue.lat, x.venue.lon)) <= max_distance]
+		#items = [ x for x in MenuItem.objects.all() if distance((lat,lon), (2, 2)) <= max_distance]
+	else:
+		items = [ x for x in MenuItem.objects.all() ]
 	from random import shuffle
 	shuffle(items)
 	output = [ item_to_json_dict(i) for i in items[:count] ]

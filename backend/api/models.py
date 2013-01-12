@@ -13,6 +13,8 @@ class Venue(models.Model):
 	locality = models.CharField(max_length=50)
 	region = models.CharField(max_length=5)
 	website = models.CharField(max_length=255)
+	lat = models.FloatField()
+	lon = models.FloatField()
 	def __unicode__(self):
 		return self.name
 

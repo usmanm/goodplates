@@ -10,6 +10,8 @@ def load_venue(d):
 		          address=d["address"],
 		          locality=d["locality"],
 		          region=d["region"],
+			  lat=d["geo"][0],
+			  lon=d["geo"][1],
 		          website=d["website"]
 		)
 		v.save()
