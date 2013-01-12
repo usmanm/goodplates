@@ -1,6 +1,6 @@
 from collections import defaultdict
 
-from models import MenuItem, User, Rating
+from models import MenuItem, User, Rating, Venue
 
 import csv
 
@@ -34,4 +34,11 @@ def import_ratings(f):
         else:
 					value = Rating.DISLIKE
         r = Rating(user=user, menu_item=item, value=value)
-      r.save()
+        r.save()
+  for m in MenuItem.objects.all():
+    if not Rating.objects.filter(menu_item=m).exists():
+      m.delete()
+  for v in Venue.objects.all():
+    if not MenuItem.objects.filter(venue=v).exists():
+      v.delete()
+        
