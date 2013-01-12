@@ -23,26 +23,13 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Favorite restaurant?" />
+            android:text="Restaurant?" />
 
         <AutoCompleteTextView
             android:id="@+id/prefrestaurant"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/prefsearch"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Search" >
-        </Button>
-
-        <ExpandableListView
-            android:id="@+id/expandable_list"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:cacheColorHint="#00000000"
-            android:listSelector="@android:color/transparent" />
+        
     </LinearLayout>
 
     <LinearLayout
@@ -52,7 +39,7 @@
         android:layout_alignParentBottom="true" >
 
         <Button
-            android:id="@+id/Button04"
+            android:id="@+id/addpref"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -60,7 +47,7 @@
         </Button>
 
         <Button
-            android:id="@+id/Button04"
+            android:id="@+id/donepref"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

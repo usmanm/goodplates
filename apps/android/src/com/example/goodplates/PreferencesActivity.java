@@ -1,7 +1,5 @@
 package com.example.goodplates;
 
-
-
 import java.util.ArrayList;
 
 
@@ -12,32 +10,125 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.Toast;
 
 public class PreferencesActivity extends Activity {
 	
 	private ExpandableListView mExpandableList;
+	private Context context;
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_preferences);
-		
-		String[] autoSuggestions =
-	         {
-	         "C",
-	         "C++",
-	         "Java",
-	         "C#.NET",
-	         "iPhone",
-	         "Android",
-	         "ASP.NET",
-	         "PHP",
-	         "Python",
-	         };
+		context = getApplicationContext();
+		String[] autoSuggestions =	         
+				{"A16"
+					,"Absinthe"
+					,"Acquerello"
+					,"Ad Hoc"
+					,"Adesso"
+					,"Amber India"
+					,"Ame"
+					,"AQ"
+					,"Aziza"
+					,"Baker & Banker"
+					,"Bar Agricole"
+					,"Bar Tartine"
+					,"Baume"
+					,"Benu"
+					,"Betelnut"
+					,"Bistro Aix"
+					,"Bistro Don Giovanni"
+					,"Bocadillos"
+					,"Bottega Napa Valley"
+					,"Bouchon"
+					,"Boulevard"
+					,"Camino"
+					,"Canteen"
+					,"Chapeau!"
+					,"Chez Panisse"
+					,"Claudine"
+					,"Coco500"
+					,"Coi"
+					,"Commonwealth"
+					,"Corso Trattoria"
+					,"Cotogna"
+					,"Delfina"
+					,"Dopo"
+					,"Dosa on Fillmore"
+					,"El Paseo"
+					,"Farallon"
+					,"Fifth Floor"
+					,"Flour + Water"
+					,"Foreign Cinema"
+					,"Frances"
+					,"French Laundry"
+					,"Gary Danko"
+					,"Gialina"
+					,"Greens"
+					,"House of Prime Rib"
+					,"Incanto"
+					,"Ippuku"
+					,"Koi Palace"
+					,"La Ciccia"
+					,"La Folie"
+					,"Lers Ros"
+					,"Mamacita"
+					,"Manresa"
+					,"Marlowe"
+					,"Masa's"
+					,"Mateo's Cocina Latina"
+					,"Michael Mina"
+					,"Mission Chinese Food"
+					,"Morimoto Napa"
+					,"Nojo"
+					,"Nopa"
+					,"Nopalito"
+					,"O Chame"
+					,"Oenotri"
+					,"One Market"
+					,"Osteria Stellina"
+					,"Outerlands"
+					,"Park Tavern"
+					,"Perbacco"
+					,"Pesce"
+					,"Piccino"
+					,"Piperade"
+					,"Pizzaiolo"
+					,"Poggio"
+					,"Press"
+					,"Prospect"
+					,"Quince"
+					,"Range"
+					,"Redd"
+					,"Restaurant at Meadowood"
+					,"Rivoli"
+					,"Saison"
+					,"Sante"
+					,"Scopa"
+					,"Slanted Door"
+					,"Solbar"
+					,"Sons & Daughters"
+					,"SPQR"
+					,"State Bird Provisions"
+					,"Sushi Ran"
+					,"Swan Oyster Depot"
+					,"Terra"
+					,"Town Hall"
+					,"Va de Vi"
+					,"Waterbar"
+					,"Willi's Wine Bar"
+					,"Yank Sing"
+					,"Zarzuela"
+					,"Zuni Cafe"};
+	         
 		
 		ArrayAdapter<String> adapter = 
 				new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line,autoSuggestions);
@@ -46,39 +137,34 @@ public class PreferencesActivity extends Activity {
 		prefLoc.setText("San Fransisco, CA");
 		
 		final AutoCompleteTextView prefRest = (AutoCompleteTextView)findViewById(R.id.prefrestaurant);
-		prefRest.setAdapter(adapter);	
-		prefRest.setThreshold(2);
-		prefRest.requestFocus();
+		prefRest.setAdapter(adapter);
 		
-        final Button prefSearch = (Button) findViewById(R.id.prefsearch);
-        prefSearch.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				
-				//hide keyboard on button click
-				InputMethodManager inputManager = (InputMethodManager)
-                        getSystemService(Context.INPUT_METHOD_SERVICE); 
+		prefRest.requestFocus();
+		prefRest.setOnItemClickListener(new OnItemClickListener() { 
 
-				inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
-                           InputMethodManager.HIDE_NOT_ALWAYS);
-				
-				mExpandableList = (ExpandableListView)findViewById(R.id.expandable_list);
-				 
-		        ArrayList<Parent> arrayParents = new ArrayList<Parent>();
-		        ArrayList<String> arrayChildren = new ArrayList<String>();
-				for (int i = 0; i < 4; i++){
-		            //for each "i" create a new Parent object to set the title and the children
-		            Parent parent = new Parent();
-		            parent.setTitle("Restaurant " + i);
-		            arrayChildren.add("Menu Item " + i);
-		            parent.setArrayChildren(arrayChildren);
-		 
-		            //in this array we add the Parent object. We will use the arrayParents at the setAdapter
-		            arrayParents.add(parent);
-		        }
-		 
-		        //sets the adapter that provides data to the list.
-		        mExpandableList.setAdapter(new MyCustomAdapter(PreferencesActivity.this,arrayParents));
-				
+		    @Override
+		    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+		            long arg3) {
+		    	
+		    	InputMethodManager imm = (InputMethodManager)getSystemService(
+		    		      Context.INPUT_METHOD_SERVICE);
+		    		imm.hideSoftInputFromWindow(prefRest.getWindowToken(), 0);
+		        ArrayList<String> menuItems = new ArrayList<String>();
+		        menuItems.add("abc");
+		        menuItems.add("def");
+		        menuItems.add("ghi");
+		        menuItems.add("jkl");
+		        
+		        
+		    	//SHOW MENU HERE		    	
+		    }
+		});
+		
+		final Button donePrefButton = (Button) findViewById(R.id.donepref);
+		donePrefButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				Intent i = new Intent(context, MainActivity.class);
+				startActivity(i);
 			}
 		});
 			
