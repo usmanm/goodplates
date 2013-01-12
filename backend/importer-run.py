@@ -5,4 +5,5 @@ def main():
 	import_ratings("../turk/data/training.csv")
 	from ml import ML
 	ML.build()
+
 main()
