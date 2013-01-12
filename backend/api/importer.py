@@ -25,7 +25,8 @@ def load_item(d):
 		             title=d["name"],
 		             description=d["description"],
 		             section=d["section"],
-		             price=d["price"]
+		             price=d["price"],
+			     image_url=None
 		)
 		m.save()
 	return m

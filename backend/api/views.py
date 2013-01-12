@@ -72,7 +72,8 @@ def item_to_json_dict(item):
 	        "venue": venue_to_json_dict(item.venue),
 	        "description": item.description,
 	        "section": item.section,
-	        "price": item.price}
+	        "price": item.price,
+	        "image_url": item.image_url}
 
 def get_ranked_items(request):
 	try:
