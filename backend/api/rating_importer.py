@@ -1,7 +1,9 @@
 from models import MenuItem, User, Rating
+from django.db import transaction
 
 import csv
 
+@transaction.commit_manually
 def import_ratings(f):
 	with open(f) as csvfile:
 		reader = csv.DictReader(csvfile)
@@ -24,3 +26,4 @@ def import_ratings(f):
 					value = Rating.DISLIKE
 				r = Rating(user=user, menu_item=item, value=value)
 				r.save()
+	transaction.commit()
