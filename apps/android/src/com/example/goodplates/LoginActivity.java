@@ -1,9 +1,11 @@
 package com.example.goodplates;
 
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -114,7 +116,7 @@ public class LoginActivity extends Activity {
 		boolean cancel = false;
 		View focusView = null;
 
-		// Check for a valid password.
+		/*// Check for a valid password.
 		if (TextUtils.isEmpty(mPassword)) {
 			mPasswordView.setError(getString(R.string.error_field_required));
 			focusView = mPasswordView;
@@ -123,7 +125,7 @@ public class LoginActivity extends Activity {
 			mPasswordView.setError(getString(R.string.error_invalid_password));
 			focusView = mPasswordView;
 			cancel = true;
-		}
+		}*/
 
 		// Check for a valid email address.
 		if (TextUtils.isEmpty(mEmail)) {
@@ -145,8 +147,12 @@ public class LoginActivity extends Activity {
 			// perform the user login attempt.
 			mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
 			showProgress(true);
-			mAuthTask = new UserLoginTask();
-			mAuthTask.execute((Void) null);
+			//mAuthTask = new UserLoginTask();
+			//mAuthTask.execute((Void) null);
+			//post username to back end
+			//launch first login intent
+			Intent i = new Intent(this, PreferencesActivity.class);
+			startActivity(i);
 		}
 	}
 
