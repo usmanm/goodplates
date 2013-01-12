@@ -1,4 +1,5 @@
 import csv
+import random
 from api.models import Rating
 from time import time
 
@@ -30,7 +31,7 @@ def loadDb():
     print "Rating.objects.all(): ", time() - start
 
     start = time()
-    rows = [(r.menu_item.locu_id, r.user.username, 5 if r.value == Rating.LIKE else 1) for r in ratings]
+    rows = [(r.menu_item.locu_id, r.user.username, r.value + random.gauss(0, 0.5)) for r in ratings]
     
 
     itemIdMap = uniqMap([r[0] for r in rows], 1)
