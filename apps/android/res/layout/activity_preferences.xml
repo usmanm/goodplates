@@ -3,41 +3,69 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PreferencesActivity" >
-    
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-   		android:orientation="vertical"
-   		android:layout_width="fill_parent"
-   		android:layout_height="fill_parent"
-   	>
-   	<TextView 
-   		android:layout_width="fill_parent"
-   		android:layout_height="wrap_content"
-   		android:text="Location?"
-   		android:hint="city, zip, etc."
-   	/>
-	<AutoCompleteTextView android:id="@+id/preflocation"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-	/>
-        
-	<TextView 
-   		android:layout_width="fill_parent"
-   		android:layout_height="wrap_content"
-   		android:text="Favorite restaurant?"
-   	/>
-	<AutoCompleteTextView android:id="@+id/prefrestaurant"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-	/>
-	
-	<ExpandableListView android:id="@+id/expandable_list"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        
-                        android:cacheColorHint="#00000000"
-                        android:listSelector="@android:color/transparent"/>
-</LinearLayout>
 
-    
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"            
+            android:text="Location?" />
+
+        <AutoCompleteTextView
+            android:id="@+id/preflocation"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Favorite restaurant?" />
+
+        <AutoCompleteTextView
+            android:id="@+id/prefrestaurant"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/prefsearch"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Search" >
+        </Button>
+
+        <ExpandableListView
+            android:id="@+id/expandable_list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:cacheColorHint="#00000000"
+            android:listSelector="@android:color/transparent" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/LinearLayout02"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" >
+
+        <Button
+            android:id="@+id/Button04"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Add new item" >
+        </Button>
+
+        <Button
+            android:id="@+id/Button04"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Done" >
+        </Button>
+    </LinearLayout>
 
 </RelativeLayout>
