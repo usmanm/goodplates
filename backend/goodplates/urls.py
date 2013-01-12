@@ -14,6 +14,6 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
-    url(r'^api/user/(?P<username>\w+)/$', 'api.views.user'),
-    url(r'^api/register_user/(?P<username>\w+)/$', 'api.views.register_user'),
+    url(r'^api/user/$', 'api.views.user'),
+    url(r'^api/register_user/$', 'api.views.register_user'),
 )
