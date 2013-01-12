@@ -5,7 +5,13 @@ def load_venue(d):
 	try:
 		v = Venue.objects.get(locu_id=d["id"])
 	except Venue.DoesNotExist:
-		v = Venue(locu_id=d["id"], name=d["name"])
+		v = Venue(locu_id=d["id"],
+		          name=d["name"],
+		          address=d["address"],
+		          locality=d["locality"],
+		          region=d["region"],
+		          website=d["website"]
+		)
 		v.save()
 	return v
 
@@ -18,7 +24,8 @@ def load_item(d):
 		             venue=v,
 		             title=d["name"],
 		             description=d["description"],
-		             section=d["section"]
+		             section=d["section"],
+		             price=d["price"]
 		)
 		m.save()
 	return m
