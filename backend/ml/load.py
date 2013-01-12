@@ -1,4 +1,5 @@
 import csv
+from api.models import Rating
 
 def loadCsv(fileName):
     """
@@ -12,6 +13,21 @@ def loadCsv(fileName):
     
     rows = [(r[itemIdx], r[userIdx], 1 if r[answerIdx] == "Yes" else 0) for r in rows[1:]]
     
+    itemIdMap = uniqMap([r[0] for r in rows], 1)
+    userIdMap = uniqMap([r[1] for r in rows])
+
+    rows = [(itemIdMap[r[0]], userIdMap[r[1]], r[2]) for r in rows]
+
+    return itemIdMap, userIdMap, rows
+
+def loadDb():
+    """
+    Loads up ratings from the DB
+    """
+    ratings = Rating.objects.all()
+
+    rows = [(r.menu_item.locu_id, r.user.username, 1 if r.value == Rating.LIKE else 0) for r in ratings]
+
     itemIdMap = uniqMap([r[0] for r in rows], 1)
     userIdMap = uniqMap([r[1] for r in rows])
 
