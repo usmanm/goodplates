@@ -51,13 +51,15 @@ def rate(request):
 	if rating.lower() == "like":
 		r = Rating(user=user, menu_item=item, value=Rating.LIKE)
 		r.save()
-		return HttpResponse("")
 	elif rating.lower() == "dislike":
 		r = Rating(user=user, menu_item=item, value=Rating.DISLIKE)
 		r.save()
-		return HttpResponse("")
 	else:
 		return HttpResponseBadRequest(error_json('Rating "%s" is not valid'%rating))
+
+	from ml import ML
+	ML.build()
+	return HttpResponse("")
 
 def venue_to_json_dict(venue):
 	return {"locu_id": venue.locu_id,
