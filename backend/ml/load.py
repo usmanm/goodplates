@@ -1,8 +1,10 @@
+import csv
+
 def loadCsv(fileName):
     """
     Loads up a CrowdFlower CSV file and returns the item id map, the user id map, and the list of ratings
     """
-    rows = [tuple(l.strip().split(",")) for l in file(fileName).readlines()]
+    rows = [l for l in csv.reader(open(fileName, 'rb'))]    
 
     itemIdx = rows[0].index("id")
     userIdx = rows[0].index("_worker_id")

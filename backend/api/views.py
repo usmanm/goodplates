@@ -72,7 +72,8 @@ def item_to_json_dict(item):
 	        "venue": venue_to_json_dict(item.venue),
 	        "description": item.description,
 	        "section": item.section,
-	        "price": item.price}
+	        "price": item.price,
+	        "image_url": item.image_url}
 
 def get_ranked_items(request):
 	try:
@@ -84,7 +85,7 @@ def get_ranked_items(request):
 	except User.DoesNotExist:
 		return HttpResponseBadRequest(error_json('user "%s" not found in database'%username))
 	page = int(request.GET.get("page", 1))
-	count = 50
+	count = int(request.GET.get("size", 50))
 	items = [ x for x in MenuItem.objects.all() ]
 	from random import shuffle
 	shuffle(items)

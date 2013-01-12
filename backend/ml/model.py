@@ -28,3 +28,33 @@ def makeModel(itemIdMap, userIdMap, ratings, factors=20, learnRate=0.0005, regul
     print "Test RMSE: ", np.sqrt(sqerr)
 
     return model
+
+def tableFromModel(model, itemIdMap, userIdMap):
+    itemIds = itemIdMap.values()
+    userIds = userIdMap.values()
+
+    table = dict((userID, dict((itemID, model(itemID, userID)) for itemID in itemIds)) for userID in userIds)
+
+    return table
+
+def csvFromModel(model, itemIdMap, userIdMap):
+    table = tableFromModel(model, itemIdMap, userIdMap)
+
+    itemIds = sorted(itemIdMap.values())
+    userIds = sorted(userIdMap.values())
+
+    revUser = reverseMap(userIdMap)
+    revItem = reverseMap(itemIdMap)
+
+    #print itemIds
+    lines = [[""] + map(lambda i: str(revItem[i]), itemIds)]
+
+    lines += [map(str, [revUser[userId]] + [table[userId][itemId] for itemId in itemIds]) for userId in userIds]
+
+    #return "\n".join([",".join(line) for line in lines])
+    return lines
+
+def reverseMap(m):
+    return dict((v, k) for k, v in m.items())
+
+
