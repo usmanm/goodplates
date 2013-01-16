@@ -1,0 +1,126 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".DishInfoActivity" >
+
+    <ImageView
+        android:id="@+id/dishImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:src="@drawable/ic_launcher" />
+
+    <ScrollView
+        android:id="@+id/dishInfoScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:layout_weight="1" >
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:layout_marginLeft="10dp"
+           android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/dishName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="&lt;DISH NAME>"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+            
+            <TextView
+                android:id="@+id/dishPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="[DISH PRICE]"
+                android:textSize="20sp" />
+            
+            <TextView
+                android:id="@+id/dishDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="DISH DESCRIPTION"
+                android:textSize="20sp" />
+            
+            <TextView
+                android:id="@+id/dishSection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="DISH SECTION"
+                android:textSize="20sp" />
+            
+            <TextView
+                android:id="@+id/venueName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="VENUE NAME"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+            
+            <TextView
+                android:id="@+id/venuePhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="VENUE PHONE NUMBER"
+                android:textSize="20sp" />
+            
+            <TextView
+                android:id="@+id/venueFullAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:linksClickable="true"
+                android:text="VENUE ADDRESS
+VENUE LOCALITY, REGION"
+                android:textSize="20sp" />
+            
+            <TextView
+                android:id="@+id/venueWebsite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="VENUE WEBSITE"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" >
+
+<!--         <Button
+            android:id="@+id/noButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="24dp"
+            android:onClick="onNoButtonClick"
+            android:text="Nah" /> -->
+
+        <Button
+            android:id="@+id/yesButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:onClick="onYesButtonClick"
+            android:text="I Want This!" />
+
+    </RelativeLayout>
+
+</LinearLayout>

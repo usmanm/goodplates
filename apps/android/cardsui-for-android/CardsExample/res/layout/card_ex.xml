@@ -18,7 +18,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="title" />
+            android:text="title"
+            android:textSize="30sp" 
+            android:textStyle="bold"/>
+
     </LinearLayout>
 
     <View
@@ -27,36 +30,99 @@
         android:layout_marginTop="4dp"
         android:background="@android:color/holo_blue_light" />
 
+    <!-- <LinearLayout 
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/selectable_background_cardbank"
+    android:gravity="center_vertical"
+    android:padding="4dp" >
+
+
+    <ImageView
+    android:id="@+id/imgview"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_weight="1" />
+    </LinearLayout>
+
+
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/selectable_background_cardbank"
+    android:gravity="center_vertical"
+    android:padding="4dp" >
+
+
+    <TextView
+    android:id="@+id/description"
+    style="@style/CardText"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="8dp"
+    android:ellipsize="end"
+    android:maxLines="40" />
+    </LinearLayout> --> -->
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/relativelayout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:background="@drawable/selectable_background_cardbank"
         android:gravity="center_vertical"
         android:padding="4dp" >
 
         <ImageView
             android:id="@+id/imgview"
-            android:layout_width="500dp"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/selectable_background_cardbank"
-        android:gravity="center_vertical"
-        android:padding="4dp" >
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center_horizontal"
+            android:scaleType="fitXY" />
 
         <TextView
+            android:id="@+id/vendor"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignBottom="@+id/imgview"
+            android:layout_alignLeft="@+id/imgview"
+            android:layout_alignRight="@+id/imgview"
+            android:layout_alignTop="@+id/imgview"
+            android:layout_margin="1dp"
+            android:gravity="left"
+            android:shadowColor="#000000"
+            android:shadowRadius="2.0"
+            android:text="text overlay"
+            android:textColor="#ffffff"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+        
+        <TextView
             android:id="@+id/description"
-            style="@style/CardText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:ellipsize="end"
-            android:maxLines="40" />
-    </LinearLayout>
+            android:layout_alignBottom="@+id/imgview"
+            android:layout_alignLeft="@+id/imgview"
+            android:layout_alignRight="@+id/imgview"
+            android:layout_alignTop="@+id/imgview"
+            android:layout_margin="1dp"
+            android:gravity="bottom"
+            android:shadowColor="#000000"
+            android:shadowRadius="2.0"
+            android:text="text overlay"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+        
+<!--                 <TextView -->
+<!--             android:id="@+id/description" -->
+<!--             style="@style/CardText" -->
+<!--             android:layout_width="wrap_content" -->
+<!--             android:layout_height="wrap_content" -->
+<!--             android:layout_marginLeft="8dp" -->
+<!--             android:ellipsize="end" -->
+<!--             android:maxLines="40" /> -->
+
+
+    </RelativeLayout>
 
 </LinearLayout>

@@ -24,10 +24,11 @@ public abstract class Card extends AbstractCard {
 
 	}
 
-	public Card(String title, String desc, String url) {
+	public Card(String title, String desc, String url, String vendor) {
 		this.title = title;
 		this.desc = desc;
 		this.url = url;
+		this.vendor = vendor;
 	}
 	
 	@Override

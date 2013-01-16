@@ -1,15 +1,33 @@
 package com.cardsui.example;
 
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.URL;
+import java.util.ArrayList;
+
+import org.codehaus.jackson.map.JsonSerializer;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.StrictMode;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.fima.cardsui.objects.CardStack;
 import com.fima.cardsui.views.CardUI;
@@ -23,62 +41,84 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-		//Remove notification bar
-		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		
+		// Remove notification bar
+		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 		setContentView(R.layout.activity_main);
 
 		// init CardView
 		mCardView = (CardUI) findViewById(R.id.cardsview);
 		mCardView.setSwipeable(true);
-		
-		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+				.permitAll().build();
 
 		StrictMode.setThreadPolicy(policy);
-		
-		String a = "http://dev.tovpizza.com/wp-capalon/uploads/2012/03/pizza21.jpg";
-		String b = "http://2.bp.blogspot.com/-RJmAVnh-Rjs/UFCDLA6lKEI/AAAAAAAAAO8/Tw3s4iUFpe4/s1600/tuna-salad-1.jpg";
-		String c = "http://roughwriter.yc.edu/wp-content/uploads/2011/05/macaroni.jpg";
-		String d = "http://www.simplyrecipes.com/wp-content/uploads/2008/04/spaghetti-meatballs.jpg?ea6e46";
-		String e = "http://howtomakefrenchtoastinfo.com/wp-content/uploads/2012/06/french-toast.jpg";		
-
-		// add AndroidViews Cards
-		mCardView.addCard(new MyCard("Pizza - Pizza Hut","ahmed is the pizza bitch\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus cursus odio eu metus auctor vulputate. Vivamus aliquet, orci vel semper luctus, nibh orci rutrum nisi, vel suscipit eros sapien a nibh. Sed tempor pulvinar leo non eleifend. Aenean sem quam, pulvinar non porta ac, dictum et urna. Suspendisse ac lacinia justo. Curabitur sollicitudin ultricies suscipit. Vivamus at leo vel tortor iaculis congue. Duis eleifend orci id nisi commodo vestibulum.",a));		
-		MyCard androidViewsCard = new MyCard("Tuna Salad - Fresh Choice","i really need to get some sleep\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus cursus odio eu metus auctor vulputate. Vivamus aliquet, orci vel semper luctus, nibh orci rutrum nisi, vel suscipit eros sapien a nibh. Sed tempor pulvinar leo non eleifend. Aenean sem quam, pulvinar non porta ac, dictum et urna. Suspendisse ac lacinia justo. Curabitur sollicitudin ultricies suscipit. Vivamus at leo vel tortor iaculis congue. Duis eleifend orci id nisi commodo vestibulum.",b);
-		
-		
-		androidViewsCard.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse("http://www.androidviews.net/"));
-				startActivity(intent);
-
+		ArrayList<CardInfo> allCards = new ArrayList<CardInfo>();
+		// get closest restaurants
+		try 
+		{
+			URL nearMe = new URL("http://goodplates.locu.com:8188/api/get_ranked_items/?username=8370314&page=1&size=14&lat=37.7750&lon=-122.4183&radius=10");
+			BufferedReader br = new BufferedReader(new InputStreamReader(nearMe.openStream()));
+			String line;
+			String suggestionsJSON = "";
+			while ((line = br.readLine()) != null) 
+			{
+				suggestionsJSON += line;
+			}			
+			
+			allCards = new ArrayList<CardInfo>();
+			JSONArray innerArray = new JSONArray(suggestionsJSON);
+			for(int i = 0; i < innerArray.length(); i++)
+			{
+				String desc = innerArray.getJSONObject(i).getString("description");
+				String dish = innerArray.getJSONObject(i).getString("title");
+				String section = innerArray.getJSONObject(i).getString("section");
+				String price = innerArray.getJSONObject(i).getString("price");
+				double distance = innerArray.getJSONObject(i).getDouble("distance");
+				String locuid = innerArray.getJSONObject(i).getString("locu_id");
+				
+				JSONObject ven = innerArray.getJSONObject(i).getJSONObject("venue");
+				String website = ven.getString("website");
+				String venue = ven.getString("name");
+				String locality = ven.getString("locality");
+				String region = ven.getString("region");
+				String address = ven.getString("address");
+				
+				CardInfo ci = new CardInfo(desc,dish,section,price,distance,website,venue,locality,region,address,locuid);
+				allCards.add(ci);				
 			}
-		});
-		mCardView.addCard(androidViewsCard);
+		} catch (Exception e) {
+			int x = 1+1;
+			Exception a = e;
+		}
 
-		// add one card, and then add another one to the last stack.
-		mCardView.addCard(new MyCard("Mac and Cheese - Dino's Kitchen","yummy\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus cursus odio eu metus auctor vulputate. Vivamus aliquet, orci vel semper luctus, nibh orci rutrum nisi, vel suscipit eros sapien a nibh. Sed tempor pulvinar leo non eleifend. Aenean sem quam, pulvinar non porta ac, dictum et urna. Suspendisse ac lacinia justo. Curabitur sollicitudin ultricies suscipit. Vivamus at leo vel tortor iaculis congue. Duis eleifend orci id nisi commodo vestibulum.",c));
-		mCardView.addCard(new MyCard("Spaghetti - Fat Sal's","the quick brown fox jumped over the lazy dog\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus cursus odio eu metus auctor vulputate. Vivamus aliquet, orci vel semper luctus, nibh orci rutrum nisi, vel suscipit eros sapien a nibh. Sed tempor pulvinar leo non eleifend. Aenean sem quam, pulvinar non porta ac, dictum et urna. Suspendisse ac lacinia justo. Curabitur sollicitudin ultricies suscipit. Vivamus at leo vel tortor iaculis congue. Duis eleifend orci id nisi commodo vestibulum.",d));
-
-		// add one card
-		mCardView.addCard(new MyCard("French Toast - Hometown Buffet","i like turtles\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus cursus odio eu metus auctor vulputate. Vivamus aliquet, orci vel semper luctus, nibh orci rutrum nisi, vel suscipit eros sapien a nibh. Sed tempor pulvinar leo non eleifend. Aenean sem quam, pulvinar non porta ac, dictum et urna. Suspendisse ac lacinia justo. Curabitur sollicitudin ultricies suscipit. Vivamus at leo vel tortor iaculis congue. Duis eleifend orci id nisi commodo vestibulum.",e));
-
-		// create a stack
-		/*CardStack stack = new CardStack();
-		stack.setTitle("title test");
-
-		// add 3 cards to stack
-		stack.add(new MyCard("3 cards"));
-		stack.add(new MyCard("3 cards"));
-		stack.add(new MyCard("3 cards"));
-
-		// add stack to cardView
-		mCardView.addStack(stack);*/
-
-		// draw cards
+		String a = "http://distilleryimage1.s3.amazonaws.com/223434225cf911e299a722000a9d0ee0_7.jpg";
+		String passthis = "";
+		try{
+		String dir = Environment.getExternalStorageDirectory().toString();
+		OutputStream fos = null;                
+		File file = new File(dir,"test.JPEG");
+		Bitmap bm =BitmapFactory.decodeStream((InputStream)new URL(a).getContent());
+		fos = new FileOutputStream(file);
+		BufferedOutputStream bos = new BufferedOutputStream(fos);
+		bm.compress(Bitmap.CompressFormat.JPEG, 50, bos);
+		bos.flush();
+		bos.close();
+		passthis = file.getAbsolutePath();		
+		}
+		
+		catch(Exception e){
+			Exception ad = e;
+		}
+		
+		
+		for(CardInfo ci : allCards)
+		{
+			mCardView.addCard(new MyCard(ci.dish, ci.desc,passthis, ci.venue + ", " + ci.locality + ", " + ci.region,ci,getApplicationContext()));
+		}
+		
 		mCardView.refresh();
 	}
 

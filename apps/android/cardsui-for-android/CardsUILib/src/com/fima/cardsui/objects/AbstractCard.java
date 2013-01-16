@@ -8,6 +8,7 @@ public abstract class AbstractCard {
 	protected String title;
 	protected String desc;
 	protected String url;
+	protected String vendor;
 	
 	public abstract View getView(Context context);
 	
@@ -24,6 +25,10 @@ public abstract class AbstractCard {
 	
 	public String getURL() {
 		return url;
+	}
+	
+	public String getVendor() {
+		return vendor;
 	}
 	
 }

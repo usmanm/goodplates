@@ -6,5 +6,7 @@
     <string name="menu_settings">Settings</string>
     <string name="title_activity_main">GoodPlates</string>
     <string name="title_activity_splash">SplashActivity</string>
+    <string name="title_activity_dish_info">DishInfoActivity</string>
+    <string name="title_activity_map">MapActivity</string>
 
 </resources>
