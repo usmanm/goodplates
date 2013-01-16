@@ -5,6 +5,8 @@ from datetime import datetime
 import shutil
 from rsvd import RSVD
 import pickle
+import math
+from time import time
 
 MODEL_DIR = "/tmp/model/current"
 
@@ -14,14 +16,24 @@ class ML:
     _userMap = None
 
     @classmethod
-    def build(cls, csvFileName=None):
+    def build(cls, factors=None, csvFileName=None):
         if csvFileName:
             itemIdMap, userIdMap, ratings = load.loadCsv(csvFileName)
         else:
+            start = time()
             itemIdMap, userIdMap, ratings = load.loadDb()
+            elapsed = time() - start
+            print "loadDb: ", elapsed
 
-        m = model.makeModel(itemIdMap, userIdMap, ratings)
+        print "Number of Users: ", len(userIdMap)
+        print "Number of Items: ", len(itemIdMap)
 
+        start = time()
+        m = model.makeModel(itemIdMap, userIdMap, ratings, factors=factors or int(math.ceil(math.sqrt(len(userIdMap)))))
+        elapsed = time() - start
+        print "makeModel(): ", elapsed
+
+        start = time()
         if os.path.exists(MODEL_DIR):
             shutil.move(MODEL_DIR, MODEL_DIR + "-" + datetime.now().isoformat())
 
@@ -36,6 +48,8 @@ class ML:
         userFile = open(MODEL_DIR + "/userMap", 'wb')
         pickle.dump(userIdMap, userFile)
         userFile.close()
+        elapsed = time() - start
+        print "Save All: ", elapsed
 
     @classmethod
     def loadModel(cls):
@@ -52,7 +66,7 @@ class ML:
     @classmethod
     def get(cls, userId, itemId=None, mapIds=True):
         if not os.path.exists(MODEL_DIR):
-            return 0.5
+            return 3
 
         if not ML._model or not ML._userMap or not ML._itemMap:
             ML.loadModel()

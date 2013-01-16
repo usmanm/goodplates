@@ -1,7 +1,7 @@
 import numpy as np
 from rsvd import rating_t, RSVD
 
-def makeModel(itemIdMap, userIdMap, ratings, factors=20, learnRate=0.0005, regularization=0.005):
+def makeModel(itemIdMap, userIdMap, ratings, factors=20, learnRate=0.001, regularization=0.011):
     """
     Makes a RSVD model from ratings
     """
@@ -9,16 +9,22 @@ def makeModel(itemIdMap, userIdMap, ratings, factors=20, learnRate=0.0005, regul
     np.random.shuffle(ratings)
 
     n = int(ratings.shape[0] * 0.8)
-    train = ratings[:n]
+    # train = ratings[:n]
     test = ratings[n:]
-    v = int(train.shape[0] * 0.9)
-    val = train[v:]
-    train = train[:v]
+    # v = int(train.shape[0] * 0.9)
+    # val = train[v:]
+    # train = train[:v]
+
+    # Increasing training data
+    v = int(ratings.shape[0] * 0.9)
+    val = ratings[v:]
+    train = ratings[:v]
 
     dims = (len(itemIdMap), len(userIdMap))
 
     model = RSVD.train(factors, train, dims, probeArray=val,
-                learnRate=learnRate, regularization=regularization)
+                learnRate=learnRate, regularization=regularization,
+                maxEpochs=1000)
 
     sqerr=0.0
     for itemID,userID,rating in test:
