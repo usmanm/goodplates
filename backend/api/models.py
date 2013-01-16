@@ -30,7 +30,7 @@ class MenuItem(models.Model):
 		return self.title
 
 class Rating(models.Model):
-  user = models.ForeignKey(User)
+  user = models.ForeignKey(User, related_name='ratings')
   menu_item = models.ForeignKey(MenuItem, related_name='ratings')
   NOT_INTERESTED = 1
   DISLIKE = 2
