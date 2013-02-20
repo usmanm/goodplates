@@ -1,4 +1,4 @@
 goodplates
 ==========
 
-Hello world!
+Hello, world!
